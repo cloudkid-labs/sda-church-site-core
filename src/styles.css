@@ -1,0 +1,33 @@
+:root {
+  --sda-primary: #17334d;
+  --sda-accent: #dd7b33;
+  --sda-surface: #f7f4ee;
+  --sda-ink: #142637;
+  --sda-muted: #536578;
+  color: var(--sda-ink);
+  background: var(--sda-surface);
+  font-family: system-ui, sans-serif;
+}
+
+.sda-site { min-height: 100vh; }
+.sda-nav { display:flex; justify-content:space-between; align-items:center; gap:2rem; padding:1rem max(1rem,calc((100vw - 72rem)/2)); background:var(--sda-primary); color:#fff; }
+.sda-nav a { color:inherit; text-decoration:none; }
+.sda-nav__brand { font-weight:700; }
+.sda-nav__links { display:flex; flex-wrap:wrap; gap:1rem; margin:0; padding:0; list-style:none; }
+.sda-nav a[aria-current="page"] { text-decoration:underline; text-decoration-color:var(--sda-accent); text-underline-offset:.35em; }
+.sda-page { max-width:72rem; margin:0 auto; padding:clamp(2rem,6vw,5rem) 1.25rem; }
+.sda-page__header { max-width:48rem; margin:0 auto 3rem; text-align:center; }
+.sda-page__header h1 { margin:.2em 0; color:var(--sda-primary); font:500 clamp(2rem,5vw,3.75rem)/1.1 Georgia,serif; }
+.sda-page__eyebrow,.sda-card__label { color:var(--sda-accent); font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.sda-page__intro { color:var(--sda-muted); font-size:1.1rem; line-height:1.65; }
+.sda-page__blocks { display:grid; gap:2.5rem; max-width:52rem; margin:0 auto; }
+.sda-block h2,.sda-card h3 { color:var(--sda-primary); font-family:Georgia,serif; }
+.sda-block p { line-height:1.7; }
+.sda-block--callout,.sda-card { padding:1.5rem; border:1px solid #d9d5cc; border-radius:1rem; background:#fff; }
+.sda-block--callout { border-top:3px solid var(--sda-accent); }
+.sda-card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(14rem,100%),1fr)); gap:1rem; }
+.sda-image img { width:100%; height:auto; border-radius:1rem; }
+.sda-image figcaption { color:var(--sda-muted); text-align:center; }
+.sda-faq details { padding:1rem 0; border-bottom:1px solid #d9d5cc; }
+.sda-faq summary { color:var(--sda-primary); font-weight:700; cursor:pointer; }
+@media(max-width:40rem) { .sda-nav { align-items:flex-start; flex-direction:column; gap:.5rem; } }
