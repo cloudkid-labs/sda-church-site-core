@@ -32,6 +32,7 @@ export type ChurchSiteConfig = {
   theme: { primary: string; accent: string };
   pages: ChurchPageConfig[];
   sections: ChurchSectionConfig[];
+  visibility: Record<string, boolean>;
 };
 export type CmsBlock = { type: string; id?: string; enabled?: boolean; [key: string]: unknown };
 export type CmsPageData = {
@@ -44,7 +45,8 @@ export type CmsPageData = {
   status?: 'draft' | 'live';
 };
 
-export function defineChurchSite<T extends Omit<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections'> & Partial<Pick<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections'>>>(input: T): ChurchSiteConfig;
+export function defineChurchSite<T extends Omit<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility'> & Partial<Pick<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility'>>>(input: T): ChurchSiteConfig;
+export function isVisible(config: Pick<ChurchSiteConfig, 'visibility'>, key: string): boolean;
 export function enabledPages(config: ChurchSiteConfig): ChurchPageConfig[];
 export function navigationPages(config: ChurchSiteConfig, locale?: Locale): { slug: string; href: string; label: string }[];
 export function enabledSections(config: ChurchSiteConfig, page?: string): ChurchSectionConfig[];
@@ -56,4 +58,4 @@ export function createEmptyCmsPage(slug: string, title?: string): CmsPageData & 
 export const ChurchNavigation: ComponentType<{ site: ChurchSiteConfig; locale?: Locale; currentPath?: string }>;
 export const CmsPage: ComponentType<{ site: ChurchSiteConfig; page: CmsPageData; locale?: Locale; currentPath?: string }>;
 export const ChurchMap: ComponentType<{ lat: number; lng: number; name: string; address: string; markerUrl?: string; zoom?: number; className?: string }>;
-export const ChurchVisitMap: ComponentType<{ site: ChurchSiteConfig; locale?: Locale; labels?: Record<string, string> }>;
+export const ChurchVisitMap: ComponentType<{ site: ChurchSiteConfig; locale?: Locale; labels?: Record<string, string>; visibilityPrefix?: string }>;
