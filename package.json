@@ -1,0 +1,37 @@
+{
+  "name": "@cloudkid-labs/sda-church-site-core",
+  "version": "1.0.0",
+  "description": "Shared configuration and CMS page UX for independent SDA church websites",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloudkid-labs/sda-church-site-core.git"
+  },
+  "files": ["src", "README.md", "LICENSE"],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./cms": {
+      "types": "./src/cms.d.ts",
+      "import": "./src/cms.js"
+    },
+    "./react": {
+      "types": "./src/react.d.ts",
+      "import": "./src/react.js"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "@types/react": ">=18 <20",
+    "react": ">=18 <20"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
