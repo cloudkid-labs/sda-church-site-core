@@ -55,6 +55,21 @@ const homeSections = enabledSections(site);
 
 Pages and sections are data. Each site can enable or omit routes and CMS blocks without forking the shared renderer. `CmsPage` renders the supported block types, including a `map` block that uses the site's location, service times, and theme. Its `ChurchMap` component uses Leaflet and OpenStreetMap with the required tile attribution. A site can keep church-specific blocks in its own application and render them alongside the core components.
 
+## Visibility configuration
+
+Set optional boolean keys in `site.visibility` to hide individual visual elements. Missing keys remain visible. Keys are dotted paths; `false` hides that element and its descendants, while child keys let a site hide one field or card without hiding its section.
+
+```js
+visibility: {
+  'navigation.brand': false,
+  'page.home.title': false,
+  'page.home.block.church-map': false,
+  'page.about.block.faq.item.0.answer': false,
+}
+```
+
+The core renderer recognizes page fields, blocks, block fields, card and FAQ items, links, and visit-map details. Use the exported `isVisible(site, key)` helper for site-specific components. Visibility config is build-time and requires a deployment to change. An OpenStreetMap map keeps its attribution control visible whenever the map itself is shown.
+
 ## CMS contract
 
 `validateCmsPage` validates the shared public page shape and safe links before a site's own Worker persists it. The core package does not choose storage, authentication, mail routing, or hosting. Each church owns that backend and its CMS data. Use Cloudflare Access or an equivalent authenticated boundary for CMS write endpoints.
