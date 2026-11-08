@@ -70,6 +70,10 @@ visibility: {
 
 The core renderer recognizes page fields, blocks, block fields, card and FAQ items, links, and visit-map details. Use the exported `isVisible(site, key)` helper for site-specific components. Visibility config is build-time and requires a deployment to change. An OpenStreetMap map keeps its attribution control visible whenever the map itself is shown.
 
+## Language state
+
+Wrap the site app in `ChurchLocaleProvider` to share the selected locale between page roots. It renders `defaultLocale` first for server/client consistency, then restores the visitor's saved locale and keeps the document's `lang` attribute in sync. `ChurchLanguageSwitcher` renders buttons for the configured locales and follows `visibility['language.switcher']`; site-specific controls can use `useChurchLocale()` to keep their own design. Pass `storageKey` to preserve an existing site's preference key.
+
 ## CMS contract
 
 `validateCmsPage` validates the shared public page shape and safe links before a site's own Worker persists it. The core package does not choose storage, authentication, mail routing, or hosting. Each church owns that backend and its CMS data. Use Cloudflare Access or an equivalent authenticated boundary for CMS write endpoints.
@@ -79,3 +83,4 @@ The core renderer recognizes page fields, blocks, block fields, card and FAQ ite
 Publish a GitHub Release tagged to match `package.json` (for example, `v1.0.0`). The release workflow publishes that version to GitHub Packages. Keep `1.x` releases backward compatible. Patch and minor releases can be auto-merged by consuming sites after their required build checks pass; major releases remain review PRs. Each church repo updates and deploys independently.
 
 New sites can start from [`sda-church-site-template`](https://github.com/cloudkid-labs/sda-church-site-template). Set a `GH_PACKAGES_READ_TOKEN` Dependabot secret in each consumer repository so it can check for package updates.
+
