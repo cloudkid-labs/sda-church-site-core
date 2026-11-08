@@ -1,5 +1,6 @@
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HEX = /^#[0-9a-fA-F]{6}$/;
+const VISIBILITY_KEY = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
 
 /** Validate and freeze the church-owned configuration at build time. */
 export function defineChurchSite(input) {
@@ -40,6 +41,16 @@ export function defineChurchSite(input) {
     }
     if (seenSections.has(section.id)) issues.push(`sections.${index}.id is duplicated`);
     seenSections.add(section.id);
+  }
+
+  const visibility = input.visibility === undefined ? {} : input.visibility;
+  if (!visibility || typeof visibility !== 'object' || Array.isArray(visibility)) {
+    issues.push('visibility must be a key-to-boolean object');
+  } else {
+    for (const [key, enabled] of Object.entries(visibility)) {
+      if (key.length > 160 || !VISIBILITY_KEY.test(key)) issues.push(`visibility.${key} must be a lowercase dotted or hyphenated key`);
+      if (typeof enabled !== 'boolean') issues.push(`visibility.${key} must be a boolean`);
+    }
   }
 
   const theme = input.theme && typeof input.theme === 'object' ? input.theme : {};
@@ -100,7 +111,16 @@ export function defineChurchSite(input) {
     theme: { primary: theme.primary ?? '#17334d', accent: theme.accent ?? '#dd7b33' },
     pages: pages.map((page) => ({ enabled: true, ...page })),
     sections: sections.map((section, order) => ({ enabled: true, order, ...section })),
+    visibility: { ...visibility },
   });
+}
+
+export function isVisible(config, key) {
+  for (let path = key; path; path = path.slice(0, path.lastIndexOf('.'))) {
+    if (config?.visibility?.[path] === false) return false;
+    if (!path.includes('.')) break;
+  }
+  return true;
 }
 
 export function enabledPages(config) {
