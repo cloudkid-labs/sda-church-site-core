@@ -116,7 +116,11 @@ export function defineChurchSite(input) {
 }
 
 export function isVisible(config, key) {
-  return config?.visibility?.[key] !== false;
+  for (let path = key; path; path = path.slice(0, path.lastIndexOf('.'))) {
+    if (config?.visibility?.[path] === false) return false;
+    if (!path.includes('.')) break;
+  }
+  return true;
 }
 
 export function enabledPages(config) {
