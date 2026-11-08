@@ -1,4 +1,4 @@
-const BLOCK_TYPES = new Set(['text', 'callout', 'cardGrid', 'faq', 'image', 'linkList']);
+const BLOCK_TYPES = new Set(['text', 'callout', 'cardGrid', 'faq', 'image', 'linkList', 'map']);
 const RESERVED_SLUGS = new Set(['404', '_astro', 'admin', 'api', 'favicon', 'index', 'login', 'members', 'robots', 'sitemap']);
 const SAFE_LOCAL_HREF = /^\/(?!\/)[A-Za-z0-9\-._~/?#=&%]*$/;
 

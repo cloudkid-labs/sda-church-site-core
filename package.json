@@ -28,6 +28,9 @@
     "@types/react": ">=18 <20",
     "react": ">=18 <20"
   },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }

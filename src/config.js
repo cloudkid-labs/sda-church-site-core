@@ -56,6 +56,37 @@ export function defineChurchSite(input) {
     }
   }
 
+  let location;
+  if (input.location !== undefined) {
+    const value = input.location && typeof input.location === 'object' ? input.location : {};
+    if (!Number.isFinite(value.lat) || value.lat < -90 || value.lat > 90) issues.push('location.lat must be a valid latitude');
+    if (!Number.isFinite(value.lng) || value.lng < -180 || value.lng > 180) issues.push('location.lng must be a valid longitude');
+    if (!(typeof value.address === 'string' || (value.address && typeof value.address === 'object'))) {
+      issues.push('location.address must be text or localized text');
+    }
+    if (typeof value.directionsUrl !== 'string' || !/^https:\/\//.test(value.directionsUrl)) {
+      issues.push('location.directionsUrl must be an https URL');
+    }
+    if (value.appleMapsUrl !== undefined && (typeof value.appleMapsUrl !== 'string' || !/^https:\/\//.test(value.appleMapsUrl))) {
+      issues.push('location.appleMapsUrl must be an https URL');
+    }
+    if (value.markerUrl !== undefined && (typeof value.markerUrl !== 'string' || (!value.markerUrl.startsWith('/') && !/^https:\/\//.test(value.markerUrl)))) {
+      issues.push('location.markerUrl must be a local path or https URL');
+    }
+    location = {
+      address: value.address,
+      lat: value.lat,
+      lng: value.lng,
+      directionsUrl: value.directionsUrl,
+      ...(value.appleMapsUrl ? { appleMapsUrl: value.appleMapsUrl } : {}),
+      ...(value.markerUrl ? { markerUrl: value.markerUrl } : {}),
+    };
+  }
+  const serviceTimes = Array.isArray(input.serviceTimes) ? input.serviceTimes : [];
+  if (serviceTimes.some((time) => !time || !(typeof time.name === 'string' || (time.name && typeof time.name === 'object')) || typeof time.start !== 'string' || typeof time.end !== 'string')) {
+    issues.push('serviceTimes entries need a name, start, and end');
+  }
+
   if (issues.length) throw new TypeError(`Invalid church site config:\n- ${issues.join('\n- ')}`);
   return deepFreeze({
     id,
@@ -64,6 +95,8 @@ export function defineChurchSite(input) {
     defaultLocale,
     timezone: input.timezone ?? 'Africa/Johannesburg',
     url: input.url ?? '',
+    ...(location ? { location } : {}),
+    serviceTimes: [...serviceTimes],
     theme: { primary: theme.primary ?? '#17334d', accent: theme.accent ?? '#dd7b33' },
     pages: pages.map((page) => ({ enabled: true, ...page })),
     sections: sections.map((section, order) => ({ enabled: true, order, ...section })),

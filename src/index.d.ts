@@ -11,6 +11,15 @@ export type ChurchPageConfig = {
   home?: boolean;
 };
 export type ChurchSectionConfig = { id: string; page?: string; type: string; enabled?: boolean; order?: number };
+export type ChurchLocationConfig = {
+  address: string | LocalizedText;
+  lat: number;
+  lng: number;
+  directionsUrl: string;
+  appleMapsUrl?: string;
+  markerUrl?: string;
+};
+export type ChurchServiceTimeConfig = { name: string | LocalizedText; start: string; end: string };
 export type ChurchSiteConfig = {
   id: string;
   name: Record<Locale, string>;
@@ -18,6 +27,8 @@ export type ChurchSiteConfig = {
   defaultLocale: Locale;
   timezone: string;
   url: string;
+  location?: ChurchLocationConfig;
+  serviceTimes?: ChurchServiceTimeConfig[];
   theme: { primary: string; accent: string };
   pages: ChurchPageConfig[];
   sections: ChurchSectionConfig[];
@@ -44,3 +55,5 @@ export function validateCmsPage(value: unknown): { ok: true; value: CmsPageData 
 export function createEmptyCmsPage(slug: string, title?: string): CmsPageData & { status: 'draft' };
 export const ChurchNavigation: ComponentType<{ site: ChurchSiteConfig; locale?: Locale; currentPath?: string }>;
 export const CmsPage: ComponentType<{ site: ChurchSiteConfig; page: CmsPageData; locale?: Locale; currentPath?: string }>;
+export const ChurchMap: ComponentType<{ lat: number; lng: number; name: string; address: string; markerUrl?: string; zoom?: number; className?: string }>;
+export const ChurchVisitMap: ComponentType<{ site: ChurchSiteConfig; locale?: Locale; labels?: Record<string, string> }>;

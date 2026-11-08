@@ -31,6 +31,14 @@ export const site = defineChurchSite({
   locales: ['af', 'en'],
   defaultLocale: 'af',
   theme: { primary: '#17334d', accent: '#dd7b33' },
+  location: {
+    address: { af: 'Kerkstraat 1, Dorp', en: '1 Church Street, Town' },
+    lat: -33.9,
+    lng: 18.6,
+    directionsUrl: 'https://maps.google.com/?q=sample+church',
+    markerUrl: '/map-marker.svg',
+  },
+  serviceTimes: [{ name: { af: 'Erediens', en: 'Divine service' }, start: '11:00', end: '12:00' }],
   pages: [
     { slug: '', home: true, navigation: false },
     { slug: 'about', title: { af: 'Oor ons', en: 'About' } },
@@ -45,7 +53,7 @@ const nav = navigationPages(site);
 const homeSections = enabledSections(site);
 ```
 
-Pages and sections are data. Each site can enable or omit routes and CMS blocks without forking the shared renderer. `CmsPage` renders the supported block types; a site can keep church-specific blocks in its own application and render them alongside the core components.
+Pages and sections are data. Each site can enable or omit routes and CMS blocks without forking the shared renderer. `CmsPage` renders the supported block types, including a `map` block that uses the site's location, service times, and theme. Its `ChurchMap` component uses Leaflet and OpenStreetMap with the required tile attribution. A site can keep church-specific blocks in its own application and render them alongside the core components.
 
 ## CMS contract
 
