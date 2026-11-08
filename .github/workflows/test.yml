@@ -16,4 +16,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: node --check src/config.js && node --check src/react.js
       - run: npm test
