@@ -51,4 +51,3 @@ export function ChurchLanguageSwitcher({ site, className = '' }) {
     onClick: () => setLocale(code),
   }, code.toUpperCase())));
 }
-

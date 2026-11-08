@@ -73,4 +73,3 @@
 .leaflet-popup-close-button { position:absolute; top:0; right:0; padding:4px 5px 0 0; border:0; background:transparent; color:#757575; font:bold 18px/14px Tahoma,sans-serif; text-decoration:none; cursor:pointer; }.leaflet-popup-scrolled { overflow:auto; }
 @media(max-width:40rem) { .sda-nav { align-items:flex-start; flex-direction:column; gap:.5rem; } }
 @media(max-width:40rem) { .sda-visit { grid-template-columns:minmax(0,1fr); }.sda-map-shell { min-height:24rem; } }
-
