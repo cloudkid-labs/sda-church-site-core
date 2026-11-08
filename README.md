@@ -70,6 +70,10 @@ visibility: {
 
 The core renderer recognizes page fields, blocks, block fields, card and FAQ items, links, and visit-map details. Use the exported `isVisible(site, key)` helper for site-specific components. Visibility config is build-time and requires a deployment to change. An OpenStreetMap map keeps its attribution control visible whenever the map itself is shown.
 
+## Language state
+
+Wrap the site app in `ChurchLocaleProvider` to share the selected locale between page roots. It renders `defaultLocale` first for server/client consistency, then restores the visitor's saved locale and keeps the document's `lang` attribute in sync. `ChurchLanguageSwitcher` renders buttons for the configured locales and follows `visibility['language.switcher']`; site-specific controls can use `useChurchLocale()` to keep their own design. Pass `storageKey` to preserve an existing site's preference key.
+
 ## CMS contract
 
 `validateCmsPage` validates the shared public page shape and safe links before a site's own Worker persists it. The core package does not choose storage, authentication, mail routing, or hosting. Each church owns that backend and its CMS data. Use Cloudflare Access or an equivalent authenticated boundary for CMS write endpoints.

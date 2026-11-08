@@ -1,6 +1,6 @@
 {
   "name": "@cloudkid-labs/sda-church-site-core",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": { "test": "node --test test/visibility.test.js" },
   "description": "Shared configuration and CMS page UX for independent SDA church websites",
   "type": "module",
@@ -15,9 +15,17 @@
       "types": "./src/index.d.ts",
       "import": "./src/index.js"
     },
+    "./config": {
+      "types": "./src/config.d.ts",
+      "import": "./src/config.js"
+    },
     "./cms": {
       "types": "./src/cms.d.ts",
       "import": "./src/cms.js"
+    },
+    "./locale": {
+      "types": "./src/locale.d.ts",
+      "import": "./src/locale.js"
     },
     "./react": {
       "types": "./src/react.d.ts",

@@ -15,6 +15,10 @@
 .sda-nav__brand { font-weight:700; }
 .sda-nav__links { display:flex; flex-wrap:wrap; gap:1rem; margin:0; padding:0; list-style:none; }
 .sda-nav a[aria-current="page"] { text-decoration:underline; text-decoration-color:var(--sda-accent); text-underline-offset:.35em; }
+.sda-language { display:inline-flex; gap:.25rem; }
+.sda-language button { border:1px solid #b8c3cc; border-radius:999px; padding:.55rem .85rem; background:#fff; color:var(--sda-primary); font:inherit; font-size:.85rem; font-weight:700; cursor:pointer; }
+.sda-language button[aria-pressed="true"] { border-color:var(--sda-accent); background:var(--sda-accent); color:#fff; }
+.sda-language button:focus-visible { outline:3px solid var(--sda-primary); outline-offset:2px; }
 .sda-page { max-width:72rem; margin:0 auto; padding:clamp(2rem,6vw,5rem) 1.25rem; }
 .sda-page__header { max-width:48rem; margin:0 auto 3rem; text-align:center; }
 .sda-page__header h1 { margin:.2em 0; color:var(--sda-primary); font:500 clamp(2rem,5vw,3.75rem)/1.1 Georgia,serif; }
