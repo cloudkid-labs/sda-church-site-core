@@ -13,6 +13,7 @@ test('visibility defaults on, honors false, and rejects invalid config', () => {
 
   assert.equal(isVisible(site, 'page.home.title'), false);
   assert.equal(isVisible(site, 'page.home.intro'), true);
+  assert.equal(isVisible({ visibility: { 'page.home.block': false, 'page.home.block.faq': true } }, 'page.home.block.faq'), false);
   assert.throws(() => defineChurchSite({
     id: 'sample-church',
     name: { af: 'SDA Voorbeeld', en: 'Sample SDA Church' },
