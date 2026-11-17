@@ -18,7 +18,7 @@ Then install it in a site that already uses React:
 npm install @cloudkid-labs/sda-church-site-core
 ```
 
-The package requires React 18 or 19 as a peer dependency. Import `@cloudkid-labs/sda-church-site-core/styles.css` once in the site's global stylesheet.
+The package requires React 18 or 19 as a peer dependency. Import `@cloudkid-labs/sda-church-site-core/styles.css` once in the site's global stylesheet. Core styles use the site's `--font-sans` and `--font-serif` tokens when available, with system and Georgia fallbacks.
 
 ## Site configuration
 
