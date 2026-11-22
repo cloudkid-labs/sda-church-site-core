@@ -74,3 +74,20 @@
 .leaflet-popup-close-button { position:absolute; top:0; right:0; padding:4px 5px 0 0; border:0; background:transparent; color:#757575; font:bold 18px/14px var(--font-sans, system-ui, sans-serif); text-decoration:none; cursor:pointer; }.leaflet-popup-scrolled { overflow:auto; }
 @media(max-width:40rem) { .sda-nav { align-items:flex-start; flex-direction:column; gap:.5rem; } }
 @media(max-width:40rem) { .sda-visit { grid-template-columns:minmax(0,1fr); }.sda-map-shell { min-height:24rem; } }
+
+.sda-newsletter { max-width:72rem; margin:0 auto; padding:3rem 1.25rem 0; }
+.sda-newsletter__card { padding:1.5rem; border:1px solid #d9d5cc; border-radius:1rem; background:#fffdf8; }
+.sda-newsletter__card h2 { margin:0; color:var(--sda-primary); font:500 clamp(1.5rem,4vw,2rem)/1.2 var(--font-serif, Georgia, serif); }
+.sda-newsletter__description,.sda-newsletter__message { color:var(--sda-muted); line-height:1.6; }
+.sda-newsletter form { margin-top:1.25rem; }
+.sda-newsletter form>label:first-child { display:block; margin-bottom:.5rem; color:var(--sda-ink); font-weight:700; }
+.sda-newsletter__controls { display:flex; flex-direction:column; gap:.75rem; }
+.sda-newsletter__controls input { min-width:0; flex:1; padding:.8rem 1rem; border:1px solid #b8c3cc; border-radius:.5rem; background:#fff; color:var(--sda-ink); font:inherit; }
+.sda-newsletter__controls button { padding:.8rem 1.5rem; border:0; border-radius:999px; background:var(--sda-accent); color:#fff; font:700 1rem var(--font-sans, system-ui, sans-serif); cursor:pointer; }
+.sda-newsletter__controls button:disabled { opacity:.55; cursor:wait; }
+.sda-newsletter__controls input:focus-visible,.sda-newsletter__controls button:focus-visible,.sda-newsletter__consent a:focus-visible { outline:3px solid var(--sda-primary); outline-offset:2px; }
+.sda-newsletter__consent { display:flex; align-items:flex-start; gap:.5rem; margin-top:1rem; color:var(--sda-muted); font-size:.9rem; line-height:1.5; }
+.sda-newsletter__consent input { margin-top:.25rem; }
+.sda-newsletter__consent a { margin-left:.3rem; color:var(--sda-primary); text-decoration:underline; }
+.sda-newsletter__captcha { margin-top:1rem; }
+@media(min-width:40rem) { .sda-newsletter__controls { flex-direction:row; } .sda-newsletter__controls button { flex:0 0 auto; } }
