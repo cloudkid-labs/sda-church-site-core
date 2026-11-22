@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isVisible, localize } from './config.js';
 import { isSafeCmsHref } from './cms.js';
+import { NewsletterSignup } from './newsletter.js';
 
 const h = React.createElement;
 
@@ -154,6 +155,7 @@ export function CmsPage({ site, page, locale = site.defaultLocale, currentPath }
       blocks.length > 0 && h('div', { className: 'sda-page__blocks' },
         blocks.map(({ block, index }) => renderBlock(block, locale, index, site.defaultLocale, site, page.slug)),
       ),
+      (page.slug === '' || page.slug === 'home') && site.newsletter?.enabled === true && h(NewsletterSignup, { site, locale }),
     ),
   );
 }
