@@ -35,13 +35,20 @@ function loadTurnstile(callback) {
     script.async = true;
     script.defer = true;
     script.dataset.sdaTurnstile = 'true';
+    script.addEventListener('load', () => { script.dataset.loaded = 'true'; }, { once: true });
     document.head.appendChild(script);
   }
-  script.addEventListener('load', () => {
+  if (script.dataset.loaded === 'true') {
     const loaded = turnstile();
     if (loaded) callback(loaded);
-  }, { once: true });
-  return () => {};
+    return () => {};
+  }
+  const onLoad = () => {
+    const loaded = turnstile();
+    if (loaded) callback(loaded);
+  };
+  script.addEventListener('load', onLoad, { once: true });
+  return () => script.removeEventListener('load', onLoad);
 }
 
 export function NewsletterSignup({ site, locale = site.defaultLocale }) {
@@ -56,7 +63,7 @@ export function NewsletterSignup({ site, locale = site.defaultLocale }) {
   useEffect(() => {
     if (!config?.enabled || !config.endpoint || !config.turnstileSiteKey) return;
     let cancelled = false;
-    fetch(config.endpoint, { headers: { Accept: 'application/json' } })
+    fetch(config.endpoint, { headers: { Accept: 'application/json' }, cache: 'no-store' })
       .then((response) => response.ok ? response.json() : null)
       .then((data) => { if (!cancelled) setEnabled(data?.enabled === true); })
       .catch(() => {});
