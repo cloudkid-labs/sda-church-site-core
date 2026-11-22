@@ -103,7 +103,7 @@ export function defineChurchSite(input) {
     const value = input.newsletter && typeof input.newsletter === 'object' && !Array.isArray(input.newsletter)
       ? input.newsletter
       : {};
-    if (!value || typeof value !== 'object' || Array.isArray(input.newsletter)) {
+    if (!input.newsletter || typeof input.newsletter !== 'object' || Array.isArray(input.newsletter)) {
       issues.push('newsletter must be a configuration object');
     } else {
       if (value.enabled !== undefined && typeof value.enabled !== 'boolean') issues.push('newsletter.enabled must be a boolean');
@@ -119,8 +119,9 @@ export function defineChurchSite(input) {
       if (value.privacyHref !== undefined && (typeof value.privacyHref !== 'string' || !(value.privacyHref.startsWith('/') && !value.privacyHref.startsWith('//')) && !/^https:\/\//.test(value.privacyHref))) {
         issues.push('newsletter.privacyHref must be a local path or https URL');
       }
-      const copy = value.copy === undefined ? {} : value.copy;
-      if (!copy || typeof copy !== 'object' || Array.isArray(copy)) {
+      const suppliedCopy = value.copy;
+      const copy = suppliedCopy && typeof suppliedCopy === 'object' && !Array.isArray(suppliedCopy) ? suppliedCopy : {};
+      if (suppliedCopy !== undefined && (!suppliedCopy || typeof suppliedCopy !== 'object' || Array.isArray(suppliedCopy))) {
         issues.push('newsletter.copy must be localized text');
       } else {
         for (const [key, text] of Object.entries(copy)) {
