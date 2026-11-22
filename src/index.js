@@ -2,3 +2,4 @@ export { defineChurchSite, enabledPages, enabledSections, isVisible, localize, n
 export { createEmptyCmsPage, isCmsSlug, isSafeCmsHref, validateCmsPage } from './cms.js';
 export { ChurchLanguageSwitcher, ChurchLocaleProvider, useChurchLocale } from './locale.js';
 export { ChurchMap, ChurchNavigation, ChurchVisitMap, CmsPage } from './react.js';
+export { NewsletterSignup } from './newsletter.js';
