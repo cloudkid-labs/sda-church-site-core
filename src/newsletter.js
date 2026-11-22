@@ -116,7 +116,7 @@ export function NewsletterSignup({ site, locale = site.defaultLocale }) {
   }
 
   const privacyHref = config.privacyHref;
-  return h('section', { className: 'sda-newsletter', 'aria-labelledby': `${formId}-title` },
+  return h('section', { className: 'sda-newsletter', 'aria-labelledby': `${formId}-title`, style: { '--sda-primary': site.theme.primary, '--sda-accent': site.theme.accent } },
     h('div', { className: 'sda-newsletter__card' },
       h('h2', { id: `${formId}-title` }, text('title')),
       h('p', { className: 'sda-newsletter__description' }, text('description')),
