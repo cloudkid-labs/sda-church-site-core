@@ -98,6 +98,50 @@ export function defineChurchSite(input) {
     issues.push('serviceTimes entries need a name, start, and end');
   }
 
+  let newsletter;
+  if (input.newsletter !== undefined) {
+    const value = input.newsletter && typeof input.newsletter === 'object' && !Array.isArray(input.newsletter)
+      ? input.newsletter
+      : {};
+    if (!value || typeof value !== 'object' || Array.isArray(input.newsletter)) {
+      issues.push('newsletter must be a configuration object');
+    } else {
+      if (value.enabled !== undefined && typeof value.enabled !== 'boolean') issues.push('newsletter.enabled must be a boolean');
+      if (value.endpoint !== undefined && (typeof value.endpoint !== 'string' || !/^\/(?!\/)[A-Za-z0-9\-._~/?#=&%]*$/.test(value.endpoint))) {
+        issues.push('newsletter.endpoint must be a same-site path');
+      }
+      if (value.turnstileSiteKey !== undefined && (typeof value.turnstileSiteKey !== 'string' || !value.turnstileSiteKey.trim() || value.turnstileSiteKey.length > 256)) {
+        issues.push('newsletter.turnstileSiteKey must be a non-empty public key');
+      }
+      if (value.enabled === true && (!value.endpoint || !value.turnstileSiteKey)) {
+        issues.push('enabled newsletter requires endpoint and turnstileSiteKey');
+      }
+      if (value.privacyHref !== undefined && (typeof value.privacyHref !== 'string' || !(value.privacyHref.startsWith('/') && !value.privacyHref.startsWith('//')) && !/^https:\/\//.test(value.privacyHref))) {
+        issues.push('newsletter.privacyHref must be a local path or https URL');
+      }
+      const copy = value.copy === undefined ? {} : value.copy;
+      if (!copy || typeof copy !== 'object' || Array.isArray(copy)) {
+        issues.push('newsletter.copy must be localized text');
+      } else {
+        for (const [key, text] of Object.entries(copy)) {
+          if (!['title', 'description', 'email', 'consent', 'privacy', 'submit', 'sending', 'success', 'error', 'captcha'].includes(key)) {
+            issues.push(`newsletter.copy.${key} is not a supported label`);
+          } else if (typeof text !== 'string' && (!text || typeof text !== 'object' || Array.isArray(text)
+            || Object.values(text).some((entry) => typeof entry !== 'string'))) {
+            issues.push(`newsletter.copy.${key} must be a string or localized text`);
+          }
+        }
+      }
+      newsletter = {
+        enabled: value.enabled === true,
+        ...(value.endpoint ? { endpoint: value.endpoint } : {}),
+        ...(value.turnstileSiteKey ? { turnstileSiteKey: value.turnstileSiteKey } : {}),
+        ...(value.privacyHref ? { privacyHref: value.privacyHref } : {}),
+        ...(Object.keys(copy).length ? { copy: { ...copy } } : {}),
+      };
+    }
+  }
+
   if (issues.length) throw new TypeError(`Invalid church site config:\n- ${issues.join('\n- ')}`);
   return deepFreeze({
     id,
@@ -112,6 +156,7 @@ export function defineChurchSite(input) {
     pages: pages.map((page) => ({ enabled: true, ...page })),
     sections: sections.map((section, order) => ({ enabled: true, order, ...section })),
     visibility: { ...visibility },
+    ...(newsletter ? { newsletter } : {}),
   });
 }
 
