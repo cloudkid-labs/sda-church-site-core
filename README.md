@@ -57,11 +57,9 @@ Pages and sections are data. Each site can enable or omit routes and CMS blocks 
 
 ## Newsletter signup
 
-The shared NewsletterSignup component renders when site.newsletter.enabled is true and the configured endpoint reports that signup is available. Each site owns the POST endpoint, mailing provider, secrets, consent language, and privacy policy URL. The endpoint uses a small shared contract: GET returns { enabled: boolean }; POST accepts { email, consent, token }. Configure a Turnstile site key for the public form and verify its token in the site's Worker before adding a contact.
+When `site.newsletter.enabled` is true, `CmsPage` automatically renders the shared `NewsletterSignup` on the home page, and the form appears only when its configured endpoint reports that signup is available. Custom React layouts can render `NewsletterSignup` directly. Each site owns the POST endpoint, mailing provider, secrets, consent language, and privacy policy URL. The endpoint contract is: GET returns `{ enabled: boolean }`; POST accepts `{ email, consent, token }`. Configure the public Turnstile site key and verify its token in the site's Worker before adding a contact.
 
 ```js
-import { NewsletterSignup } from '@cloudkid-labs/sda-church-site-core';
-
 const site = defineChurchSite({
   // ...
   newsletter: {
@@ -76,11 +74,9 @@ const site = defineChurchSite({
     },
   },
 });
-
-<NewsletterSignup site={site} />
 ```
 
-Other labels can be overridden through copy using the keys email, privacy, submit, sending, success, error, and captcha. Missing labels use the component's Afrikaans and English defaults. The form stacks its email field and button on narrow screens. Without an enabled backend or Turnstile configuration, it stays hidden.
+Other labels can be overridden through copy using the keys email, privacy, submit, sending, success, error, and captcha. Missing labels use the component's Afrikaans and English defaults. The form stacks its email field and button on narrow screens. Without an enabled backend or Turnstile configuration, it stays hidden. A custom layout can import and render it directly: `<NewsletterSignup site={site} />`.
 
 ## Visibility configuration
 
