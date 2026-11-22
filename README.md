@@ -55,6 +55,33 @@ const homeSections = enabledSections(site);
 
 Pages and sections are data. Each site can enable or omit routes and CMS blocks without forking the shared renderer. `CmsPage` renders the supported block types, including a `map` block that uses the site's location, service times, and theme. Its `ChurchMap` component uses Leaflet and OpenStreetMap with the required tile attribution. A site can keep church-specific blocks in its own application and render them alongside the core components.
 
+## Newsletter signup
+
+The shared NewsletterSignup component renders when site.newsletter.enabled is true and the configured endpoint reports that signup is available. Each site owns the POST endpoint, mailing provider, secrets, consent language, and privacy policy URL. The endpoint uses a small shared contract: GET returns { enabled: boolean }; POST accepts { email, consent, token }. Configure a Turnstile site key for the public form and verify its token in the site's Worker before adding a contact.
+
+```js
+import { NewsletterSignup } from '@cloudkid-labs/sda-church-site-core';
+
+const site = defineChurchSite({
+  // ...
+  newsletter: {
+    enabled: true,
+    endpoint: '/api/newsletter',
+    turnstileSiteKey: 'public-site-key',
+    privacyHref: '/privacy/',
+    copy: {
+      title: { af: 'Bly op hoogte', en: 'Stay in touch' },
+      description: { af: 'Ontvang nuus van die kerk.', en: 'Receive church news.' },
+      consent: { af: 'Ek stem in om nuusbriewe te ontvang.', en: 'I agree to receive newsletters.' },
+    },
+  },
+});
+
+<NewsletterSignup site={site} />
+```
+
+Other labels can be overridden through copy using the keys email, privacy, submit, sending, success, error, and captcha. Missing labels use the component's Afrikaans and English defaults. The form stacks its email field and button on narrow screens. Without an enabled backend or Turnstile configuration, it stays hidden.
+
 ## Visibility configuration
 
 Set optional boolean keys in `site.visibility` to hide individual visual elements. Missing keys remain visible. Keys are dotted paths; `false` hides that element and its descendants, while child keys let a site hide one field or card without hiding its section.
