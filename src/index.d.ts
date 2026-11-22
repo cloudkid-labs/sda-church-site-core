@@ -20,6 +20,13 @@ export type ChurchLocationConfig = {
   markerUrl?: string;
 };
 export type ChurchServiceTimeConfig = { name: string | LocalizedText; start: string; end: string };
+export type ChurchNewsletterConfig = {
+  enabled?: boolean;
+  endpoint?: string;
+  turnstileSiteKey?: string;
+  privacyHref?: string;
+  copy?: Partial<Record<'title' | 'description' | 'email' | 'consent' | 'privacy' | 'submit' | 'sending' | 'success' | 'error' | 'captcha', string | LocalizedText>>;
+};
 export type ChurchSiteConfig = {
   id: string;
   name: Record<Locale, string>;
@@ -33,6 +40,7 @@ export type ChurchSiteConfig = {
   pages: ChurchPageConfig[];
   sections: ChurchSectionConfig[];
   visibility: Record<string, boolean>;
+  newsletter?: ChurchNewsletterConfig;
 };
 export type CmsBlock = { type: string; id?: string; enabled?: boolean; [key: string]: unknown };
 export type CmsPageData = {
@@ -45,7 +53,7 @@ export type CmsPageData = {
   status?: 'draft' | 'live';
 };
 
-export function defineChurchSite<T extends Omit<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility'> & Partial<Pick<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility'>>>(input: T): ChurchSiteConfig;
+export function defineChurchSite<T extends Omit<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility' | 'newsletter'> & Partial<Pick<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility'>>>(input: T): ChurchSiteConfig;
 export function isVisible(config: Pick<ChurchSiteConfig, 'visibility'>, key: string): boolean;
 export function enabledPages(config: ChurchSiteConfig): ChurchPageConfig[];
 export function navigationPages(config: ChurchSiteConfig, locale?: Locale): { slug: string; href: string; label: string }[];
@@ -60,3 +68,4 @@ export const ChurchNavigation: ComponentType<{ site: ChurchSiteConfig; locale?: 
 export const CmsPage: ComponentType<{ site: ChurchSiteConfig; page: CmsPageData; locale?: Locale; currentPath?: string }>;
 export const ChurchMap: ComponentType<{ lat: number; lng: number; name: string; address: string; markerUrl?: string; zoom?: number; className?: string }>;
 export const ChurchVisitMap: ComponentType<{ site: ChurchSiteConfig; locale?: Locale; labels?: Record<string, string>; visibilityPrefix?: string }>;
+export const NewsletterSignup: ComponentType<{ site: ChurchSiteConfig; locale?: Locale }>;
