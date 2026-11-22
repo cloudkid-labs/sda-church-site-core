@@ -53,7 +53,7 @@ export type CmsPageData = {
   status?: 'draft' | 'live';
 };
 
-export function defineChurchSite<T extends Omit<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility' | 'newsletter'> & Partial<Pick<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility'>>>(input: T): ChurchSiteConfig;
+export function defineChurchSite<T extends Omit<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility' | 'newsletter'> & Partial<Pick<ChurchSiteConfig, 'timezone' | 'url' | 'theme' | 'pages' | 'sections' | 'visibility' | 'newsletter'>>>(input: T): ChurchSiteConfig;
 export function isVisible(config: Pick<ChurchSiteConfig, 'visibility'>, key: string): boolean;
 export function enabledPages(config: ChurchSiteConfig): ChurchPageConfig[];
 export function navigationPages(config: ChurchSiteConfig, locale?: Locale): { slug: string; href: string; label: string }[];
